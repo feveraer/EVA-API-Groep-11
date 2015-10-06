@@ -4,7 +4,9 @@ var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 // MongoDB
-mongoose.connect('mongodb://localhost/eva');
+mongoose.connect('mongodb://localhost/eva', function(){
+    console.log('Connected to eva in mongodb')
+});
 
 // Express
 var app = express();
