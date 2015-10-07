@@ -1,18 +1,19 @@
-// Dependencies
+//  Dependencies
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 
 var SALT_FACTOR = 10;
 
-// Models
+//  Models
 var User = require('../models/user')
 
-// Requests
+//  Requests
 User.methods(['get', 'put', 'post', 'delete']);
 
-// Hash password
-User.before('post', hash_password);
+//  Hash a user's password on post and put
+User.before('post', hash_password)
+    .before('put', hash_password);
 
 function hash_password(req, res, next) {
     console.log('Registering user: ' + req.body.username);
