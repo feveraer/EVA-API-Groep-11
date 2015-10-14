@@ -7,12 +7,16 @@ var challengeSchema = new mongoose.Schema({
     id: {
         type: Number,
         unique: true,
-        required: 'Challenge id is required'       //TODO: validate
+        required: 'Challenge id is required'
     },
     title: String,
     description: String,
-    difficulty: Number
+    difficulty: {                           //Level:
+        type: Number,                       //1 = easy
+        min: 1,                             //2 = medium
+        max: 3                              //3 = hard
+    }
 });
 
 // Return model
-module.exports = restful.model('Users', userSchema);
+module.exports = restful.model('Challenge', challengeSchema);

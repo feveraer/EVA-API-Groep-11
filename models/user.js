@@ -13,8 +13,9 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: 'Token is required'
     },
-    loginType: String
+    loginType: String,
+    tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }]
 });
 
 // Return model
-module.exports = restful.model('Users', userSchema);
+module.exports = restful.model('User', userSchema);
