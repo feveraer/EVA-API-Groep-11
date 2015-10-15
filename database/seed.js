@@ -25,7 +25,7 @@ var bert = new User({
     tasks: [
         {
             dueDate: new Date,
-            completed: 1,
+            completed: true,
             challenge: muesliChallenge._id
         },
         {

@@ -10,8 +10,8 @@ var userSchema = new mongoose.Schema({
     tasks: [{
         dueDate: Date,
         completed: {
-            type: Number,
-            default: 0
+            type: Boolean,
+            default: false
         },
         challenge: {
             type: mongoose.Schema.Types.ObjectId,

@@ -14,15 +14,14 @@ Challenge.register(router, '/challenges');
 //      Users
 User.methods(['get', 'put', 'post', 'delete']);
 
+//      All tasks of a specific usere
 User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
-        //req.populate('tasks.challenge');
-        //var tasks = req.body.tasks;
         var id = req.params.id;
         console.log("Tasks requested for user with id: " + id);
 
-        User.findOne({ email : "bert.beerens@gmail.com"})
+        User.findOne({ _id : id })
             .populate('tasks.challenge')
             .exec( function(err, user){
                 if(err) console.log(err.message);
@@ -33,6 +32,7 @@ User.route('tasks', {
     }
 });
 
+// Register all routes
 User.register(router, '/users');
 
 // Return router
