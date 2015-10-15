@@ -14,7 +14,7 @@ Challenge.register(router, '/challenges');
 //      Users
 User.methods(['get', 'put', 'post', 'delete']);
 
-//      All tasks of a specific usere
+//      All tasks of a specific user
 User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
