@@ -4,17 +4,20 @@ var mongoose = restful.mongoose;
 
 // Schema
 var userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: 'Email address is required'       //TODO: validate
-    },
-    token: {
-        type: String,
-        required: 'Token is required'
-    },
+    email: String,                          //TODO: ADD type: String, unique: true, required: 'Email address is required'
+    token: String,                          //TODO: ADD type: String, required: 'Token is required'
     loginType: String,
-    tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }]
+    tasks: [{
+        dueDate: Date,
+        completed: {
+            type: Number,
+            default: 0
+        },
+        challenge: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Challenge'
+        }
+    }]
 });
 
 // Return model

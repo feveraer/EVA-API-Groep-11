@@ -16,6 +16,9 @@ app.use(bodyParser.json());
 //Routes
 app.use('/api', require('./routes/api'));
 
+//Seed
+require('./database/seed');
+
 // Start server
 app.listen(1337);
 console.log('Eva-API is running on port 1337!')

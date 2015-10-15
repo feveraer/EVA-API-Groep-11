@@ -4,11 +4,6 @@ var mongoose = restful.mongoose;
 
 // Schema
 var challengeSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        unique: true,
-        required: 'Challenge id is required'
-    },
     title: String,
     description: String,
     difficulty: {                           //Level:
