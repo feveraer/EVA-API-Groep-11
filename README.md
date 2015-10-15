@@ -1,19 +1,20 @@
 # Eva api #
 
 ## GET ##
+_id: unique id automatically generated
 
 ### All ###
 
 - users: ```api/users```
 - user with tasks populated: ```api/users?populate=task.challenges```
 - challenges: ```api/challenges```
-
 - select challenges with difficulty 2: ```api/challenges?difficulty=2```
 
 ### Specific ###
 
 - user: ```api/users/id```
-- user with tasks populated: ```api/users/id?populate=task.challenges```
+- user with tasks populated: ```api/users/_id?populate=task.challenges```
+- tasks for a specific user: ```api/users/_id/tasks```
 - challenge: ```api/challenges/id```
 
 ## POST/PUT ##
