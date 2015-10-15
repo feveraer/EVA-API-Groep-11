@@ -4,9 +4,21 @@ var mongoose = restful.mongoose;
 
 // Schema
 var userSchema = new mongoose.Schema({
-    name: String,
-    age: Number
+    email: String,                          //TODO: ADD type: String, unique: true, required: 'Email address is required'
+    token: String,                          //TODO: ADD type: String, required: 'Token is required'
+    loginType: String,
+    tasks: [{
+        dueDate: Date,
+        completed: {
+            type: Boolean,
+            default: false
+        },
+        challenge: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Challenge'
+        }
+    }]
 });
 
 // Return model
-module.exports = restful.model('Users', userSchema);
+module.exports = restful.model('User', userSchema);
