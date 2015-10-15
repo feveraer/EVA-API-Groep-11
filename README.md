@@ -43,7 +43,17 @@ _id: unique id automatically generated
         "difficulty": 1
       },
       "completed": 1
+    },
+    {
+      "dueDate": "2015-10-15T08:03:42.728Z",
+      "challenge": {
+        "title": "Eet muesli als ontbijt",
+        "description": "Begin met het opwarmen van...",
+        "difficulty": 1
+      },
+      "completed": 1
     }
+  ]
 }
 ```
 
