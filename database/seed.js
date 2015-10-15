@@ -36,14 +36,5 @@ var bert = new User({
 });
 
 bert.save(function(error) {
-    if(!error) {
-        console.log('find users...');
-        User.find({})
-            .populate('tasks.challenge')
-            .exec(function(error, users) {
-                console.log(JSON.stringify(users, null, "\t"));
-            });
-    } else {
-        console.log(error.message);
-    }
+    if(error) console.log(error.message);
 });
