@@ -41,7 +41,7 @@
         "description": "Begin met het opwarmen van...",
         "difficulty": 1
       },
-      "completed": true
+      "completed": 1
     }
 }
 ```
