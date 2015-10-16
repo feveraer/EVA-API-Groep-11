@@ -14,14 +14,13 @@ Challenge.register(router, '/challenges');
 //      Users
 User.methods(['get', 'put', 'post', 'delete']);
 
-//      All tasks of a specific user
+//      All tasks of a specific user: /users/id/tasks
 User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
-        var id = req.params.id;
-        console.log("Tasks requested for user with id: " + id);
-
-        User.findOne({ _id : id })
+        //populate('tasks.challenge') will fill our challenge data within tasks,
+        //without populate we would return the objectId
+        User.findOne({ _id : req.params.id })       // api/users/req.params.id/tasks
             .populate('tasks.challenge')
             .exec( function(err, user){
                 if(err){
