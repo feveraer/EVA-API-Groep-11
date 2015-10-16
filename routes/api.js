@@ -24,7 +24,11 @@ User.route('tasks', {
         User.findOne({ _id : id })
             .populate('tasks.challenge')
             .exec( function(err, user){
-                if(err) console.log(err.message);
+                if(err){
+                    console.log(err.message);
+                    res.send(err.message);
+                    return next;
+                }
 
                 var tasks = user.get('tasks');
                 res.send(tasks);
