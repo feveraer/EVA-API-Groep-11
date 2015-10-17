@@ -23,15 +23,12 @@ User.route('tasks', {
         User.findOne({ _id : req.params.id })       // api/users/req.params.id/tasks
             .populate('tasks.challenge')
             .exec( function(err, user){
-                if(err){
-                    console.log(err.message);
-                    res.send(err.message);
-                    return next;
-                }
+                if(err) return next(err);
+                if(!user) return next(new Error('User with ' + req.params.id + ' is null.'));
 
                 var tasks = user.get('tasks');
                 res.send(tasks);
-        });
+            });
     }
 });
 

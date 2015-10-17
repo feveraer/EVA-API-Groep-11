@@ -2,7 +2,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var morgan = require('morgan');
+var logger = require('morgan');
 
 // MongoDB
 mongoose.connect('mongodb://localhost/eva', function(){
@@ -16,16 +16,31 @@ mongoose.connect('mongodb://localhost/eva', function(){
 var app = express();
 
 //      Morgan to log requests
-app.use(morgan('dev'));
+app.use(logger('dev'));
 
 //      Body data -> json
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 app.use(bodyParser.json());
 
-//Routes
+// Routes
 app.use('/api', require('./routes/api'));
+
+// Error handling
+app.use(function(err, req, res, next){
+    //Only print stacktrace when in a dev environment
+    var stackTrace = {};
+    if(app.get('env') === 'development') stackTrace = err;
+
+    console.error(err);
+    res.status(500).send({
+        status:500,
+        message: err.message,
+        error: stackTrace,
+        type:'internal'
+    });
+});
 
 // Start server
 app.listen(1337);
