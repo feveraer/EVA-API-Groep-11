@@ -24,8 +24,18 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-//Routes
+// Routes
 app.use('/api', require('./routes/api'));
+
+// Error handling
+app.use(function(err, req, res, next){
+    console.error(err);
+    res.status(500).send({
+        status:500,
+        message: err.message,
+        type:'internal'
+    });
+});
 
 // Start server
 app.listen(1337);
