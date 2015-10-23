@@ -1,5 +1,13 @@
 # Eva api #
 
+## Group members ##
+
+- Lorenz Verschingel
+- Brian Pinsard
+- Tjen Wellens
+- Frederic Everaert
+- Thomas Van Sevenant
+
 ## POSTMAN ##
 
 https://dl.dropboxusercontent.com/u/70372926/Eva_Api/Eva_requests.json
