@@ -41,6 +41,7 @@ for(var challengeIndex = 1; challengeIndex <= CHALLENGES_AMOUNT; challengeIndex+
 for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
     var user = new User({
         email: "gebruiker_" + userIndex + "@gmail.com",
+        name: "gebruiker_" + userIndex,
         token: "12345679abc",
         loginType: "facebook",
         tasks: generateTasks()
