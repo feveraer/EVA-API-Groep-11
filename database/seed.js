@@ -1,5 +1,6 @@
 var User = require('../models/user'),
-    Challenge = require('../models/challenge');
+    Challenge = require('../models/challenge'),
+    Category = require('../models/category');
 
 var USERS_AMOUNT = 10,
     CHALLENGES_AMOUNT = 30,
@@ -9,13 +10,27 @@ var USERS_AMOUNT = 10,
 
 console.log('Seeding data...');
 
+//Create categories
+var categoryNames = ["Breakfast", "Lunch", "Dinner", "Social"];
+var categories = [];
+
+for(var catIndex = 0; catIndex < categoryNames.length; catIndex++){
+    var category = new Category({
+        name: categoryNames[catIndex]
+    });
+
+    categories.push(category);
+    category.save();
+}
+
 //Generate challenges and save them to the database
 var challenges = [];
 for(var challengeIndex = 1; challengeIndex <= CHALLENGES_AMOUNT; challengeIndex++){
      var challenge = new Challenge({
          title: "Uitdaging #" + challengeIndex,
          description: "Uitleg voor uitdaging #" + challengeIndex,
-         difficulty: randomNumber(DIFF_MIN, DIFF_MAX)
+         difficulty: randomNumber(DIFF_MIN, DIFF_MAX),
+         category: categories[randomNumber(0, categories.length-1)]._id
      });
 
     challenges.push(challenge);
