@@ -10,6 +10,11 @@ var challengeSchema = new mongoose.Schema({
         type: Number,                       //1 = easy
         min: 1,                             //2 = medium
         max: 3                              //3 = hard
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        index: true
     }
 });
 
