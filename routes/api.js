@@ -3,10 +3,15 @@ var express = require('express');
 var router = express.Router();
 
 // Models
-var Challenge = require('../models/challenge'),
+var Category = require('../models/category'),
+    Challenge = require('../models/challenge'),
     User = require('../models/user');
 
 // Routes
+//      Categories
+Category.methods(['get', 'put', 'post', 'delete']);
+Category.register(router, '/categories');
+
 //      Challenges
 Challenge.methods(['get', 'put', 'post', 'delete']);
 Challenge.register(router, '/challenges');
