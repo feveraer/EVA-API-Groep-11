@@ -41,7 +41,8 @@ User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        User.findOne({ _id : req.params.id })
+        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
+        User.findOne({})
             .populate('tasks.challenge')
             .exec( function(err, user){
                 if(err) return next(err);
