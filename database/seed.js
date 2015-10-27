@@ -57,7 +57,8 @@ function generateTasks() {
     for(var taskIndex = 0; taskIndex < TASKS_PER_USER; taskIndex++){
         randomTasks.push({
             dueDate: generateDate(taskIndex),
-            challenge: challenges[randomNumber(0, CHALLENGES_AMOUNT-1)]._id
+            challenge: challenges[randomNumber(0, CHALLENGES_AMOUNT-1)]._id,
+            completed: (taskIndex < 5)                                          //TODO: replace.. For timeline development!
         });
     }
 
