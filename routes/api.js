@@ -36,19 +36,28 @@ Challenge.register(router, '/challenges');
 //      Users
 User.methods(['get', 'put', 'post', 'delete']);
 
-//      All tasks of a specific user: /users/id/tasks
+//      All tasks of a specific user: /users/:id/tasks
 User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        User.findOne({ _id : req.params.id })       // api/users/req.params.id/tasks
+        User.findOne({ _id : req.params.id })
             .populate('tasks.challenge')
             .exec( function(err, user){
                 if(err) return next(err);
                 if(!user) return next(new Error('User with ' + req.params.id + ' is null.'));
 
+                //Get the user's tasks and define category path for populating
                 var tasks = user.get('tasks');
-                res.send(tasks);
+                var populateOptions = {
+                    path: 'challenge.category',
+                    model: 'Category'
+                };
+
+                //Populate categories
+                User.populate(tasks, populateOptions, function(err, populatedTasks){
+                    res.send(populatedTasks);
+                });
             });
     }
 });
