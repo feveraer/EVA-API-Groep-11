@@ -10,9 +10,14 @@ var userSchema = new mongoose.Schema({
     loginType: String,
     tasks: [{
         dueDate: Date,
-        completed: {
+        completed: {                        //TODO: Available for backward compatibility, remove when dev branches don't use this anymore
             type: Boolean,
             default: false
+        },
+        status: {
+            //0 = NONE, 1 = CHOSEN, 2 = COMPLETED
+            type: Number,
+            default: 0
         },
         challenge: {
             type: mongoose.Schema.Types.ObjectId,
