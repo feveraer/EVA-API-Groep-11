@@ -4,6 +4,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var path = require('path');
 
 // MongoDB
 mongoose.connect('mongodb://localhost/eva', function(){
@@ -52,6 +53,8 @@ console.log('--Eva-API available on port 1337');
 var serveStatic = require('serve-static');
 var connect = require('connect');
 
-// Start http server with apidoc as content
-connect().use(serveStatic(__dirname + '/apidoc')).listen(80);
-console.log('--Documentation available on port 80');
+var osPathSymbol = (process.platform === 'win32') ? '\\' : '/';
+var apiDocFolder = path.join(__dirname, osPathSymbol + 'apidoc');
+// Start http server with apiDocFolder as content
+connect().use(serveStatic(apiDocFolder)).listen(80);
+console.log('--Documentation from ' + apiDocFolder + ' available on port 80');
