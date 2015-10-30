@@ -59,7 +59,7 @@ function generateTasks() {
             dueDate: generateDate(taskIndex),
             challenge: challenges[randomNumber(0, CHALLENGES_AMOUNT-1)]._id,
             completed: (taskIndex < 3),                                          //TODO: replace.. For timeline development!
-            status: (taskIndex < 4) ? 2 : (taskIndex < 5) ? 1 : 0                // previous days = 2, current day = 1, tomorrow = 0
+            status: (taskIndex < 4) ? 2 : 1                                     // previous days = 2, current day = 1, tomorrow = 0
         });
     }
 
