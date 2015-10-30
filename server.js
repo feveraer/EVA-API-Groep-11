@@ -1,3 +1,4 @@
+//API
 // Dependencies
 var express = require('express');
 var mongoose = require('mongoose');
@@ -44,4 +45,13 @@ app.use(function(err, req, res, next){
 
 // Start server
 app.listen(1337);
-console.log('Eva-API is running on port 1337!')
+console.log('--Eva-API available on port 1337');
+
+//HTTP
+// Dependencies
+var serveStatic = require('serve-static');
+var connect = require('connect');
+
+// Start http server with apidoc as content
+connect().use(serveStatic(__dirname + '\\apidoc')).listen(8080);
+console.log('--Documentation available on port 8080');
