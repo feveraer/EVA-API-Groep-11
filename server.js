@@ -53,5 +53,5 @@ var serveStatic = require('serve-static');
 var connect = require('connect');
 
 // Start http server with apidoc as content
-connect().use(serveStatic(__dirname + '\\apidoc')).listen(8080);
-console.log('--Documentation available on port 8080');
+connect().use(serveStatic(__dirname + '/apidoc')).listen(80);
+console.log('--Documentation available on port 80');
