@@ -6,7 +6,9 @@ var USERS_AMOUNT = 10,
     CHALLENGES_AMOUNT = 30,
     TASKS_PER_USER = 21,
     DIFF_MIN = 1, DIFF_MAX = 3,
-    DAY_IN_MS = 86400000;
+    DAY_IN_MS = 86400000,
+    TASKS_PER_DAY = 3,
+    DAY_OFFSET = 5;
 
 console.log('Seeding data...');
 
@@ -50,27 +52,63 @@ for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
     user.save();
 }
 
-//Generate random tasks
-function generateTasks() {
-    var randomTasks = [];
-
-    for(var taskIndex = 0; taskIndex < TASKS_PER_USER; taskIndex++){
-        randomTasks.push({
-            dueDate: generateDate(taskIndex),
-            challenge: challenges[randomNumber(0, CHALLENGES_AMOUNT-1)]._id,
-            completed: (taskIndex < 3),                                          //TODO: replace.. For timeline development!
-            status: (taskIndex < 4) ? 2 : 1                                     // previous days = 2, current day = 1, tomorrow = 0
-        });
+// give status for day
+function getStatusPerDayIndex(dayIndex, taskPerDayIndex){
+    if(taskPerDayIndex > 0){
+        return 0; // only one task per day can have a status != 0
     }
 
-    return randomTasks;
+    var today = DAY_OFFSET - 1;
+    if(dayIndex < today) { // before today
+        return 2; // COMPLETED
+    }else if (dayIndex == today) { // today
+        return 1; // CHOSEN
+    }else { // after today
+        return 1; // CHOSEN, TODO: change to 0; // NONE
+    }
+}
+
+function generateTasksForDay(dayIndex){
+    var tasks = [];
+    var usedCategories = [];
+    for(var taskPerDayIndex = 0; taskPerDayIndex < TASKS_PER_DAY; taskPerDayIndex++) {
+        var challenge = challenges[randomNumber(0, CHALLENGES_AMOUNT - 1)];
+        var status = getStatusPerDayIndex(dayIndex, taskPerDayIndex);
+        var task = {
+            dueDate: generateDate(dayIndex),
+            challenge: challenge._id,
+            completed: (dayIndex < 3),                                          //TODO: replace.. For timeline development!
+            status: status                                     // previous days = 2, current day = 1, tomorrow = 0
+        };
+        // if same category, try again (same day)
+        if(usedCategories.indexOf(challenge.category) > -1){
+            taskPerDayIndex--; // do the same day again
+            continue;
+        }
+        // unique category -> add to tasks, next iteration
+        usedCategories.push(challenge.category);
+        tasks.push(task);
+    }
+    usedCategories = [];
+    return tasks;
+}
+
+//Generate random tasks
+function generateTasks() {
+    var tasks = [];
+    for(var dayIndex = 0; dayIndex < TASKS_PER_USER; dayIndex++){
+        tasks = tasks.concat(
+          generateTasksForDay(dayIndex)
+        );
+    }
+    return tasks;
 }
 
 //first task's date is 5 days before today,
 //add a day to taskDate per task
 function generateDate(taskIndex) {
     var taskDate = new Date();
-    var daysToSubstract = 5 * DAY_IN_MS;
+    var daysToSubstract = DAY_OFFSET * DAY_IN_MS;
     var daysToAdd = (taskIndex + 1) * DAY_IN_MS;
 
     taskDate.setTime(taskDate.getTime() - daysToSubstract + daysToAdd);
