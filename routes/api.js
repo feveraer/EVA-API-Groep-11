@@ -1,4 +1,5 @@
 // Dependencies
+var ___ = require('underscore');
 var express = require('express');
 var router = express.Router();
 
@@ -61,6 +62,31 @@ User.route('tasks', {
                 });
             });
     }
+});
+
+//      Update a specific task from a specific user: /users/:id/tasks/:taskID
+router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
+    var taskData = req.body;
+
+    User.findById(req.params.userId, function(err, user) {
+        if(err) return next(err);
+
+        // Find the task we want to update
+        var task = user.tasks.id(req.params.taskId);
+        if(!task) return next(new Error('Task with ' + req.params.taskId + ' not found.'));
+
+        // Update the data for each key in request's body
+        // .each is a function of ____ (underscore.js)
+        ___.each(taskData, function(value, key) {
+            task[key] = value;
+        });
+
+        // Save the changes
+        user.save(function (err, updatedUser) {
+            console.log('changes to user saved!');
+            res.send(updatedUser);
+        });
+    });
 });
 
 // Register all routes

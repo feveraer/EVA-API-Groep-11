@@ -14,7 +14,8 @@
 				"2fc186c5-d3c9-1b71-ead2-59c8848ac7ff",
 				"fc9d9a7b-4859-96be-cd8b-7d32b008f5e1",
 				"0d172169-14b8-4041-67a1-9edb409c96bc",
-				"f02280a0-46d0-70c3-d945-58ab174095e5"
+				"f02280a0-46d0-70c3-d945-58ab174095e5",
+				"593e57d3-8737-3bcb-586d-dd4923b1f8ef"
 			],
 			"owner": ""
 		},
@@ -184,6 +185,31 @@
 			"description": "",
 			"collectionId": "e19de4e1-1cbf-d30a-7234-84672dad12c3",
 			"responses": []
+		},
+		{
+			"id": "593e57d3-8737-3bcb-586d-dd4923b1f8ef",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://95.85.59.29:1337/api/users/:userID/tasks/:taskID",
+			"pathVariables": {
+				"userID": null,
+				"taskID": null
+			},
+			"preRequestScript": "",
+			"method": "PUT",
+			"collectionId": "e19de4e1-1cbf-d30a-7234-84672dad12c3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Update task for a user",
+			"description": "Use this to update a task's status...",
+			"descriptionFormat": "html",
+			"time": 1446328836246,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "7f762bcc-bcb9-b98a-a937-f2adc2e3124d",
+			"rawModeData": "{\n    \"status\" : 2\n}"
 		},
 		{
 			"id": "5d2d7bf8-2e32-a797-5997-f6fd675b8f0d",
