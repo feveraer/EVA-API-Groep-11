@@ -1,9 +1,9 @@
 /**
- * @api {get} /user/:id/tasks Request tasks from user
+ * @api {get} /user/:userId/tasks Request tasks from user
  * @apiName GetUserTasks
  * @apiGroup User
  *
- * @apiParam {Number} id Users unique ID.
+ * @apiParam {Number} userId User's unique ID.
  *
  * @apiSuccessExample Success-Response:
  *      [
@@ -34,4 +34,23 @@
  *              "completed": false
  *          }
  *      ]
+ */
+
+/**
+ * @api {put} /user/:userId/tasks/:taskId Update task from user
+ * @apiName UpdateUserTask
+ * @apiGroup User
+ *
+ * @apiParam {Number} userId User's unique ID.
+ * @apiParam {Number} taskId Task's unique ID.
+ *
+ * @apiHeaderExample {json} Request-Example:
+ *      {
+ *          "Content-Type": "application/json"
+ *      }
+ *
+ * @apiSuccessExample Body-Example:
+ *      {
+ *          "status" : 2
+ *      }
  */

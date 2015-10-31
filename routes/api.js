@@ -83,7 +83,7 @@ router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
 
         // Save the changes
         user.save(function (err, updatedUser) {
-            console.log('changes to user saved!');
+            if(err) return next(err);
             res.send(updatedUser);
         });
     });
