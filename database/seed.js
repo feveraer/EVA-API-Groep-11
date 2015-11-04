@@ -67,12 +67,10 @@ function getStatusPerDayIndex(dayIndex, taskPerDayIndex){
     }
 
     var today = DAY_OFFSET - 1;
-    if(dayIndex < today) { // before today
+    if(dayIndex < today) { // past
         return 2; // COMPLETED
-    }else if (dayIndex == today) { // today
-        return 1; // CHOSEN
-    }else { // after today
-        return 1; // CHOSEN, TODO: change to 0; // NONE
+    }else if (dayIndex == today) { // today & future
+        return 0; // NONE
     }
 }
 

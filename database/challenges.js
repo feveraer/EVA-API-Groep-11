@@ -129,6 +129,8 @@ var challenges = [
 //  if(i%3==0) {console.log("---");}
 //  console.log(challenges[i].category + '\t\t\t'+challenges[i].title);
 //}
+console.log("Categories: ");
+console.log(createCategories());
 
 exports.challengesAmount = challenges.length;
 exports.createCategories = createCategories;
