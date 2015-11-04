@@ -2,9 +2,11 @@ var User = require('../models/user'),
     Challenge = require('../models/challenge'),
     Category = require('../models/category');
 
-var USERS_AMOUNT = 10,
-    CHALLENGES_AMOUNT = 30,
-    TASKS_PER_USER = 21,
+var FixedChallenges = require('./challenges');
+
+var USERS_AMOUNT = 1,
+    CHALLENGES_AMOUNT = FixedChallenges.challengesAmount,
+    TASKS_PER_USER = 30,
     DIFF_MIN = 1, DIFF_MAX = 3,
     DAY_IN_MS = 86400000,
     TASKS_PER_DAY = 3,
@@ -12,8 +14,10 @@ var USERS_AMOUNT = 10,
 
 console.log('Seeding data...');
 
+console.log('-creating categories');
+
 //Create categories
-var categoryNames = ["Breakfast", "Lunch", "Dinner", "Social"];
+var categoryNames = FixedChallenges.createCategories();
 var categories = [];
 
 for(var catIndex = 0; catIndex < categoryNames.length; catIndex++){
@@ -25,19 +29,21 @@ for(var catIndex = 0; catIndex < categoryNames.length; catIndex++){
     category.save();
 }
 
+console.log('-creating challenges');
+
 //Generate challenges and save them to the database
+var fixedChallenges = FixedChallenges.createChallenges(categories);
 var challenges = [];
-for(var challengeIndex = 1; challengeIndex <= CHALLENGES_AMOUNT; challengeIndex++){
-     var challenge = new Challenge({
-         title: "Uitdaging #" + challengeIndex,
-         description: "Uitleg voor uitdaging #" + challengeIndex,
-         difficulty: randomNumber(DIFF_MIN, DIFF_MAX),
-         category: categories[randomNumber(0, categories.length-1)]._id
-     });
+for(var challengeIndex = 0; challengeIndex < CHALLENGES_AMOUNT; challengeIndex++){
+     var challenge = new Challenge(fixedChallenges[challengeIndex % fixedChallenges.length]);
 
     challenges.push(challenge);
     challenge.save();
 }
+
+
+
+console.log('-creating users');
 
 //Generate users with tasks and save them to the database
 for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
@@ -51,6 +57,8 @@ for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
 
     user.save();
 }
+
+console.log('seeding done');
 
 // give status for day
 function getStatusPerDayIndex(dayIndex, taskPerDayIndex){
@@ -72,7 +80,7 @@ function generateTasksForDay(dayIndex){
     var tasks = [];
     var usedCategories = [];
     for(var taskPerDayIndex = 0; taskPerDayIndex < TASKS_PER_DAY; taskPerDayIndex++) {
-        var challenge = challenges[randomNumber(0, CHALLENGES_AMOUNT - 1)];
+        var challenge = findChallenge(dayIndex, taskPerDayIndex, usedCategories);
         var status = getStatusPerDayIndex(dayIndex, taskPerDayIndex);
         var task = {
             dueDate: generateDate(dayIndex),
@@ -80,11 +88,6 @@ function generateTasksForDay(dayIndex){
             completed: (dayIndex < 3),                                          //TODO: replace.. For timeline development!
             status: status                                     // previous days = 2, current day = 1, tomorrow = 0
         };
-        // if same category, try again (same day)
-        if(usedCategories.indexOf(challenge.category) > -1){
-            taskPerDayIndex--; // do the same day again
-            continue;
-        }
         // unique category -> add to tasks, next iteration
         usedCategories.push(challenge.category);
         tasks.push(task);
@@ -93,8 +96,17 @@ function generateTasksForDay(dayIndex){
     return tasks;
 }
 
+// not random, keep looping
+function findChallenge(dayIndex, taskPerDayIndex, categoriesUsedToday){
+    var challengeIndex = dayIndex * TASKS_PER_DAY + taskPerDayIndex;
+    // start at the beginning if more requested than there are challenges
+    challengeIndex %= challenges.length;
+    return challenges[challengeIndex];
+}
+
 //Generate random tasks
 function generateTasks() {
+    console.log('-generating tasks');
     var tasks = [];
     for(var dayIndex = 0; dayIndex < TASKS_PER_USER; dayIndex++){
         tasks = tasks.concat(
