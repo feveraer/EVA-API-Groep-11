@@ -43,6 +43,13 @@ function createLookupFromCategories(categories){
   return categoryName_categoryId_dictionary;
 }
 
+var veggieRestaurant = {
+  title: "Veggie restaurant",
+  description: 'Ga vandaag eens naar een vegetarisch restaurant. Bestel vegetarische gerechten.  \\n\\n<b>Tip:</b> je kan een restaurant in de buurt vinden op <a href=”http://www.evavzw.be/resto”>www.evavzw.be/resto</a>',
+  category: "restaurant",
+  difficulty: 2
+};
+
 var challenges = [
   // DAG 18
   {
@@ -57,16 +64,11 @@ var challenges = [
     category: "snack",
     difficulty: 2
   },
-  {
-    title: "Uit eten",
-    description: 'Ga vandaag eens naar een vegetarisch restaurant. Bestel vegetarische gerechten.  \\n\\n<b>Tip:</b> je kan een restaurant in de buurt vinden op <a href=”http://www.evavzw.be/resto”>www.evavzw.be/resto</a>',
-    category: "restaurant",
-    difficulty: 2
-  },
+  veggieRestaurant,
 
   // DAG 19
   {
-    title: "Vervang melk of yoghurt",
+    title: "Vervang melk",
     description: 'Vervang vandaag de melk of yogurt door een alternatief. Probeer eens iets nieuws en kijk wat je lekker vindt.  \\n\\nMogelijke alternatieven voor melk zijn: rijstmelk, sojamelk, amandelmelk, kokosmelk, havermelk, speltmelk, hazelnootmelk, hennepmelk, quionamelk, …\\nMogelijke alternatieven voor yoghurt zijn sojayoghurt, kokosyoghurt, …',
     category: "breakfast",
     difficulty: 2
@@ -90,12 +92,7 @@ var challenges = [
     category: "social",
     difficulty: 2
   },
-  {
-    title: "Uit eten",
-    description: 'Ga vandaag eens naar een vegetarisch restaurant. Bestel vegetarische gerechten.  \\n\\n<b>Tip:</b> je kan een restaurant in de buurt vinden op <a href=”http://www.evavzw.be/resto”>www.evavzw.be/resto</a>',
-    category: "restaurant",
-    difficulty: 2
-  },
+  veggieRestaurant,
   {
     title: "Tofu Energie Smoothie",
     description: 'Bereid vandaag de Tofu Energie Smoothie. Dit is een overheerlijke snack als vieruurtje of snack en is ook nog eens eenvoudig te bereiden.  \\n<b>Ingrediënten voor 3 personen:</b> \\n0.5 Kopje(s) tofu \\n5 stuk(s) ananas schijven (vers of blik) \\n125 mL kokosmelk \\n2 dL soja yoghurt \\n1 eetlepel (s) lijnzaad \\n1 handvol (s) ijsbokjes \\n\\n<b>Bereiding:</b> \\nAlle ingrediënten in uw blender doen en ongeveer een halve minuut laten mixen. \\n\\n<a href=”http://www.blenderworkshop.nl/blender-recepten/blender%20recepten/696-plantaardigetofu-energie-smoothie”>(bron)</a>',
