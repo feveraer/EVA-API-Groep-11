@@ -43,6 +43,15 @@ function createLookupFromCategories(categories){
   return categoryName_categoryId_dictionary;
 }
 
+function clone(obj) {
+  if (null == obj || "object" != typeof obj) return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
+}
+
 var veggieRestaurant = {
   title: "Veggie restaurant",
   description: 'Ga vandaag eens naar een vegetarisch restaurant. Bestel vegetarische gerechten.  <br/><br/><b>Tip:</b> je kan een restaurant in de buurt vinden op <a href=”http://www.evavzw.be/resto”>www.evavzw.be/resto</a>',
@@ -64,7 +73,7 @@ var challenges = [
     category: "snack",
     difficulty: 2
   },
-  veggieRestaurant,
+  clone(veggieRestaurant),
 
   // DAG 19
   {
@@ -92,7 +101,7 @@ var challenges = [
     category: "social",
     difficulty: 2
   },
-  veggieRestaurant,
+  clone(veggieRestaurant),
   {
     title: "Tofu Energie Smoothie",
     description: 'Bereid vandaag de Tofu Energie Smoothie. Dit is een overheerlijke snack als vieruurtje of snack en is ook nog eens eenvoudig te bereiden.  <br/><b>Ingrediënten voor 3 personen:</b> <br/>0.5 Kopje(s) tofu <br/>5 stuk(s) ananas schijven (vers of blik) <br/>125 mL kokosmelk <br/>2 dL soja yoghurt <br/>1 eetlepel (s) lijnzaad <br/>1 handvol (s) ijsbokjes <br/><br/><b>Bereiding:</b> <br/>Alle ingrediënten in uw blender doen en ongeveer een halve minuut laten mixen. <br/><br/><a href=”http://www.blenderworkshop.nl/blender-recepten/blender%20recepten/696-plantaardigetofu-energie-smoothie”>(bron)</a>',
