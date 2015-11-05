@@ -69,7 +69,7 @@ var challenges = [
   },
   {
     title: "Appeltaartsmoothie",
-    description: 'Bereid vandaag een appeltaartsmoothie. Dit is een overheerlijke snack als vieruurtje of snack en is ook nog eens eenvoudig te bereiden.  <br/> <br/><b>Ingrediënten voor 2 personen:</b> <br/>125 g yofu (vanille) <br/>1 rode appel (in stukjes) <br/>1 el appelmoes <br/>120 ml sojamelk <br/>1 el amandelpasta <br/>1 el ahornsiroop <br/>1 el agavesiroop <br/>0,5 tl kaneel <br/>1 el granola (of speculooskruimels) <br/><br/><b>Bereiding:</b> <br/>Doe alle ingrediënten, behalve de granola, in een blender en mix. Garneer met granola. <br/><br/><a href=”http://www.evavzw.be/recept/appeltaartsmoothie”>(bron)</a>',
+    description: 'Dit is een overheerlijke snack als vieruurtje of snack en is ook nog eens eenvoudig te bereiden.  <br/> <br/><b>Ingrediënten voor 2 personen:</b> <br/>125 g yofu (vanille) <br/>1 rode appel (in stukjes) <br/>1 el appelmoes <br/>120 ml sojamelk <br/>1 el amandelpasta <br/>1 el ahornsiroop <br/>1 el agavesiroop <br/>0,5 tl kaneel <br/>1 el granola (of speculooskruimels) <br/><br/><b>Bereiding:</b> <br/>Doe alle ingrediënten, behalve de granola, in een blender en mix. Garneer met granola. <br/><br/><a href=”http://www.evavzw.be/recept/appeltaartsmoothie”>(bron)</a>',
     category: "snack",
     difficulty: 2
   },
