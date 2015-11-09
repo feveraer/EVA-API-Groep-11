@@ -52,6 +52,7 @@ for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
         name: "gebruiker_" + userIndex,
         token: "12345679abc",
         loginType: "facebook",
+        registeredOn: new Date(2015, 10, 2),
         tasks: generateTasks()
     });
 

@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
     name: String,
     token: String,                          //TODO: Change for passport.js, ADD type: String, required: 'Token is required'
     loginType: String,
+    registeredOn: Date,
     tasks: [{
         dueDate: Date,
         completed: {                        //TODO: Available for backward compatibility, remove when dev branches don't use this anymore
