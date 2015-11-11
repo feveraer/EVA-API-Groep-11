@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "apidoc -i models/docs -o apidoc/",
     "start": "set NODE_ENV=development && node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "set NODE_ENV=test && mocha"
   },
   "author": "Brian Pinsard",
   "license": "ISC",
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "apidoc": "^0.13.1",
+    "mocha": "^2.3.3",
     "morgan": "^1.6.0",
     "should": "^7.1.1"
   }

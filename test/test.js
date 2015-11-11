@@ -1,10 +1,14 @@
 /*global describe,it,require,before,after,console*/
-var app = require('../server');
-var port = 4000;
+var app = require('../app');
 var http = require('http');
-var sessionCookie = null;
-var assert = require('assert');
 var should = require('should');
+
+var port = 4000;
+var sessionCookie = null;
+var HTTP = {
+  OK: 200,
+  NOT_FOUND: 404
+};
 
 describe('app', function () {
   var server;
@@ -33,7 +37,7 @@ describe('app', function () {
   it('should be listening at localhost:' + port, function (done) {
     var headers = defaultGetOptions('/');
     http.get(headers, function (res) {
-      assert.equal(404, res.statusCode);
+      res.statusCode.should.equal(HTTP.NOT_FOUND);
       done();
     });
   });
@@ -42,7 +46,7 @@ describe('app', function () {
     it('/api/users should return users', function (done) {
       var headers = defaultGetOptions('/api/users');
       http.get(headers, function (res) {
-        assert.equal(200, res.statusCode);
+        res.statusCode.should.equal(HTTP.OK);
         res.on('data', function (chunk) {
           var users = JSON.parse(chunk);
           validateUsers(users);
@@ -55,7 +59,7 @@ describe('app', function () {
     it('/api/users/3foo/tasks should return tasks', function (done) {
       var headers = defaultGetOptions('/api/users');
       http.get(headers, function (res) {
-        assert.equal(200, res.statusCode);
+        res.statusCode.should.equal(HTTP.OK);
         res.on('data', function (chunk) {
           var tasks = JSON.parse(chunk);
           validateTasks(tasks);
