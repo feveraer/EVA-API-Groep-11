@@ -1,4 +1,4 @@
-/*global require,process,beforeEach,afterEach*/
+/*global require,process,before,after,console*/
 
 /*
  * Modified from https://github.com/elliotf/mocha-mongoose
@@ -8,6 +8,8 @@
 
 var mongoose = require('mongoose');
 
+var seed = require('../database/seed');
+
 // ensure the NODE_ENV is set to 'test'
 // this is helpful when you would like to change behavior when testing
 process.env.NODE_ENV = 'test';
@@ -16,7 +18,7 @@ before(function (done) {
   mongoose.connect('mongodb://localhost/eva_test', function(){
     mongoose.connection.db.dropDatabase(function(){
       console.log('Database dropped.');
-      require('../database/seed');
+      seed.fillDatabase();
       done();
     });
   });
