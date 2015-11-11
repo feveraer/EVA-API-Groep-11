@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "apidoc -i models/docs -o apidoc/",
     "start": "set NODE_ENV=development && node server.js",
-    "test": "set NODE_ENV=test && mocha"
+    "test": "set NODE_ENV=test && mocha -b"
   },
   "author": "Brian Pinsard",
   "license": "ISC",

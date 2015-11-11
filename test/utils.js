@@ -12,28 +12,17 @@ var mongoose = require('mongoose');
 // this is helpful when you would like to change behavior when testing
 process.env.NODE_ENV = 'test';
 
-beforeEach(function (done) {
-
-  function clearDB() {
-    for (var i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove(function() {});
-    }
-    return done();
-  }
-
-  if (mongoose.connection.readyState === 0) {
-    mongoose.connect('mongodb://localhost/eva_test', function (err) {
-      if (err) {
-        throw err;
-      }
-      return clearDB();
+before(function (done) {
+  mongoose.connect('mongodb://localhost/eva_test', function(){
+    mongoose.connection.db.dropDatabase(function(){
+      console.log('Database dropped.');
+      require('../database/seed');
+      done();
     });
-  } else {
-    return clearDB();
-  }
+  });
 });
 
-afterEach(function (done) {
+after(function (done) {
   mongoose.disconnect();
   return done();
 });

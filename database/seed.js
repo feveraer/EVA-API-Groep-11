@@ -12,10 +12,6 @@ var USERS_AMOUNT = 1,
     TASKS_PER_DAY = 3,
     DAY_OFFSET = 5;
 
-console.log('Seeding data...');
-
-console.log('-creating categories');
-
 //Create categories
 var categoryNames = FixedChallenges.createCategories();
 var categories = [];
@@ -29,8 +25,6 @@ for(var catIndex = 0; catIndex < categoryNames.length; catIndex++){
     category.save();
 }
 
-console.log('-creating challenges');
-
 //Generate challenges and save them to the database
 var fixedChallenges = FixedChallenges.createChallenges(categories);
 var challenges = [];
@@ -42,8 +36,6 @@ for(var challengeIndex = 0; challengeIndex < CHALLENGES_AMOUNT; challengeIndex++
 }
 
 
-
-console.log('-creating users');
 
 //Generate users with tasks and save them to the database
 for(var userIndex = 1; userIndex <= USERS_AMOUNT; userIndex++){
@@ -104,7 +96,6 @@ function findChallenge(dayIndex, taskPerDayIndex, categoriesUsedToday){
 
 //Generate random tasks
 function generateTasks() {
-    console.log('-generating tasks');
     var tasks = [];
     for(var dayIndex = 0; dayIndex < TASKS_PER_USER; dayIndex++){
         tasks = tasks.concat(
