@@ -148,6 +148,42 @@ User.route('registeredOn', {
     }
 });
 
+//      current tasks of a specific user: /users/:id/todaysTasks
+User.route('todaysTasks', {
+    detail: true,
+    handler: function(req, res, next) {
+        //populate('tasks.challenge') will fill our challenge data within tasks
+        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
+        User.findOne({})
+            .populate('tasks.challenge')
+            .exec( function(err, user){
+                if(err) return next(err);
+                if(!user) return next(new Error('User with ' + req.params.id + ' is null.'));
+
+                //Get the user's tasks for today and define category path for populating
+                var tasks = user.get('tasks').filter(
+                    function (value) {
+                        var today = new Date();
+                        today = new Date(today.toDateString());
+                        var taskDate = new Date(value.dueDate);
+                        taskDate = new Date(taskDate.toDateString())
+                        return (taskDate.valueOf() ===  today.valueOf());
+                    }
+                );
+
+                var populateOptions = {
+                    path: 'challenge.category',
+                    model: 'Category'
+                };
+
+                //Populate categories
+                User.populate(tasks, populateOptions, function(err, populatedTasks){
+                    res.send(populatedTasks);
+                });
+            });
+    }
+});
+
 //      Update a specific task from a specific user: /users/:id/tasks/:taskID
 router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
     var taskData = req.body;
