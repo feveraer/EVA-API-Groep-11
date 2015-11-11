@@ -74,7 +74,6 @@ User.route('completedTasks', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
         findUserById(req.params.id)
             .populate('tasks.challenge')
             .exec( function(err, user){
@@ -106,7 +105,6 @@ User.route('currentTask', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
         findUserById(req.params.id)
             .populate('tasks.challenge')
             .exec( function(err, user){
@@ -138,7 +136,6 @@ User.route('registeredOn', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
         findUserById(req.params.id)
             .populate('tasks.challenge')
             .exec( function(err, user){
@@ -158,7 +155,6 @@ User.route('todaysTasks', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
         findUserById(req.params.id)
             .populate('tasks.challenge')
             .exec( function(err, user){
