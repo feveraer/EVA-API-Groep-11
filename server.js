@@ -5,12 +5,13 @@ var mongoose = require('mongoose');
 var path = require('path');
 
 var app = require('./app');
+var seed = require('./database/seed');
 
 // MongoDB
 mongoose.connect('mongodb://localhost/eva', function(){
     mongoose.connection.db.dropDatabase(function(){
         console.log('Database dropped.');
-        require('./database/seed');
+        seed.fillDatabase();
     });
 });
 
