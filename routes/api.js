@@ -37,13 +37,18 @@ Challenge.register(router, '/challenges');
 //      Users
 User.methods(['get', 'put', 'post', 'delete']);
 
+function findUserById(id){
+    //TODO: Replace when out of dev with
+    //return User.findOne({ _id : id});
+    return User.findOne({});
+}
+
 //      All tasks of a specific user: /users/:id/tasks
 User.route('tasks', {
     detail: true,
     handler: function(req, res, next) {
         //populate('tasks.challenge') will fill our challenge data within tasks
-        //TODO: Replace when out of dev with -> User.findOne({ _id : req.params.id })
-        User.findOne({})
+        findUserById(req.params.id)
             .populate('tasks.challenge')
             .exec( function(err, user){
                 if(err) return next(err);
@@ -68,8 +73,10 @@ User.route('tasks', {
 router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
     var taskData = req.body;
 
-    User.findById(req.params.userId, function(err, user) {
+    findUserById(req.params.userId).exec(function(err, user) {
         if(err) return next(err);
+
+        if(!user) return next(new Error('User with '+req.params.userId + ' not found.'));
 
         // Find the task we want to update
         var task = user.tasks.id(req.params.taskId);

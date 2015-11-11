@@ -2,9 +2,11 @@
 var app = require('../app');
 var http = require('http');
 var should = require('should');
+var User = require('../models/user');
 
 var port = 4000;
 var sessionCookie = null;
+var userId = "564332fdbc3df637b79f5b8c";
 var HTTP = {
   OK: 200,
   NOT_FOUND: 404
@@ -41,16 +43,40 @@ describe('Users', function () {
     // TIMEOUT? check if mongod is running
   });
 
-  it('/api/users/33234/tasks should return tasks', function (done) {
-    var headers = defaultGetOptions('/api/users/33234/tasks');
+  it('/api/users/:userId/tasks should return tasks', function (done) {
+    var headers = defaultGetOptions('/api/users/'+userId+'/tasks');
     http.get(headers, function (res) {
-      res.statusCode.should.equal(HTTP.OK);
+      res.statusCode.should.equal(HTTP.OK)/*.or.equal(204)*/;
       res.on('data', function (chunk) {
         var tasks = JSON.parse(chunk);
         validateTasks(tasks);
       });
       done();
     });
+  });
+
+  it('PUT /api/users/:userId/tasks/:taskId should update task', function (done) {
+    User.findOne({})
+      .populate('tasks.challenge')
+      .exec(function (err, user) {
+        var task = user.tasks[0];
+        var taskId = task._id;
+        var headers = defaultPutOptions('/api/users/'+userId+'/tasks/' + taskId);
+        var req = http.request(headers, function (res) {
+          res.statusCode.should.equal(HTTP.OK);
+
+          User.findOne({})
+            .exec(function (err, user) {
+              var task = user.tasks[0];
+              task.completed.should.equal(false);
+              //console.log(task);
+              done();
+            });
+        }).end(JSON.stringify({
+          completed: false
+        }));
+      });
+
   });
 });
 
@@ -84,6 +110,20 @@ function defaultGetOptions (path) {
     "method": "GET",
     "headers": {
       "Cookie": sessionCookie
+    }
+  };
+  return options;
+}
+
+function defaultPutOptions (path) {
+  var options = {
+    "host": "localhost",
+    "port": port,
+    "path": path,
+    "method": "PUT",
+    "headers": {
+      "Cookie": sessionCookie,
+      "Content-Type" : "application/json"
     }
   };
   return options;

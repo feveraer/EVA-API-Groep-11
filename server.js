@@ -26,5 +26,5 @@ var connect = require('connect');
 var osPathSymbol = (process.platform === 'win32') ? '\\' : '/';
 var apiDocFolder = path.join(__dirname, osPathSymbol + 'apidoc');
 // Start http server with apiDocFolder as content
-connect().use(serveStatic(apiDocFolder)).listen(80);
+//connect().use(serveStatic(apiDocFolder)).listen(80);
 console.log('--Documentation from ' + apiDocFolder + ' available on port 80');
