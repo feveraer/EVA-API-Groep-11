@@ -44,9 +44,11 @@ app.use(function(err, req, res, next){
     });
 });
 
+if (!module.parent) {
 // Start server
-app.listen(1337);
-console.log('--Eva-API available on port 1337');
+  app.listen(1337);
+  console.log('--Eva-API available on port 1337');
+}
 
 //HTTP
 // Dependencies
@@ -56,5 +58,7 @@ var connect = require('connect');
 var osPathSymbol = (process.platform === 'win32') ? '\\' : '/';
 var apiDocFolder = path.join(__dirname, osPathSymbol + 'apidoc');
 // Start http server with apiDocFolder as content
-connect().use(serveStatic(apiDocFolder)).listen(80);
+//connect().use(serveStatic(apiDocFolder)).listen(80);
 console.log('--Documentation from ' + apiDocFolder + ' available on port 80');
+
+module.exports = app;
