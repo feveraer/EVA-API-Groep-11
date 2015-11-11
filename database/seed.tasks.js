@@ -3,8 +3,11 @@ var config = {
   DAY_IN_MS: 86400000,
   TASKS_PER_USER: 30,
   TASKS_PER_DAY: 3,
-  DAY_OFFSET: 5
+  TODAY: new Date()
 };
+
+// offset today by 5 days
+config.TODAY.setTime(config.TODAY.getTime() - (5 * config.DAY_IN_MS));
 
 function generateTasks (challenges) {
   var tasks = [];
@@ -20,8 +23,9 @@ function generateTasksForDay (challenges, dayIndex) {
   var tasks = [];
   var usedCategories = [];
   for (var taskPerDayIndex = 0; taskPerDayIndex < config.TASKS_PER_DAY; taskPerDayIndex++) {
+    var date = generateDate(dayIndex);
     var challenge = findChallenge(challenges, dayIndex, taskPerDayIndex, usedCategories);
-    var status = getStatusPerDayIndex(dayIndex, taskPerDayIndex);
+    var status = getStatusPerDayIndex(date, taskPerDayIndex);
     var task = {
       dueDate: generateDate(dayIndex),
       challenge: challenge._id,
@@ -38,13 +42,9 @@ function generateTasksForDay (challenges, dayIndex) {
 
 //first task's date is 5 days before today,
 //add a day to taskDate per task
-function generateDate (taskIndex) {
-  var taskDate = new Date();
-  var daysToSubstract = config.DAY_OFFSET * config.DAY_IN_MS;
-  var daysToAdd = (taskIndex + 1) * config.DAY_IN_MS;
-
-  taskDate.setTime(taskDate.getTime() - daysToSubstract + daysToAdd);
-  return taskDate;
+function generateDate (dayIndex) {
+  var daysToAdd = (dayIndex) * config.DAY_IN_MS;
+  return new Date(config.TODAY.getTime() + daysToAdd);
 }
 
 // not random, keep looping
@@ -56,15 +56,14 @@ function findChallenge (challenges, dayIndex, taskPerDayIndex, categoriesUsedTod
 }
 
 // give status for day
-function getStatusPerDayIndex (dayIndex, taskPerDayIndex) {
+function getStatusPerDayIndex (date, taskPerDayIndex) {
   if (taskPerDayIndex > 0) {
     return 0; // only one task per day can have a status != 0
   }
 
-  var today = config.DAY_OFFSET - 1;
-  if (dayIndex < today) { // past
+  if (date.getTime() < new Date().getTime() - config.DAY_IN_MS) { // past
     return 2; // COMPLETED
-  } else if (dayIndex === today) { // today & future
+  } else { // today & future
     return 0; // NONE
   }
 }
