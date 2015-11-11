@@ -49,6 +49,7 @@ describe('app', function () {
         });
         done();
       });
+      // TIMEOUT? check if mongod is running
     });
 
     it('/api/users/3foo/tasks should return tasks', function (done) {
