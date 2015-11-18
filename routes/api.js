@@ -188,7 +188,7 @@ User.route('todaysTasks', {
 });
 
 //      Update a specific task from a specific user: /users/:id/tasks/:taskID
-router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
+router.put('/users/:userId/tasks/:taskId', checkToken, function(req, res, next) {
     var taskData = req.body;
 
     findUserById(req.params.userId).exec(function(err, user) {
@@ -217,7 +217,7 @@ router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
 // Register all routes
 User.register(router, '/users');
 
-// Authentication route
+// Authentication route     /authenticate?body { email, password } -> token
 router.post('/authenticate', function(req, res, next) {
 
     // find the user
@@ -230,7 +230,7 @@ router.post('/authenticate', function(req, res, next) {
             res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
             // check if password matches
-            if (user.token != req.body.token) {
+            if (user.password != req.body.password) {
                 res.json({ success: false, message: 'Authentication failed. Password is incorrect.' });
             } else {
                 // User has been found with the right password, create a jw-token
@@ -251,5 +251,35 @@ router.post('/authenticate', function(req, res, next) {
     });
 });
 
+function checkToken(req, res, next) {
+
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, config.secret, function(err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+
+    }
+}
 // Return router
 module.exports =  router;
