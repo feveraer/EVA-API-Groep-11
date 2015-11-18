@@ -219,7 +219,6 @@ User.register(router, '/users');
 
 // Authentication route     /authenticate?body { email, password } -> token
 router.post('/authenticate', function(req, res, next) {
-
     // find the user
     User.findOne({
         email: req.body.email
@@ -230,35 +229,33 @@ router.post('/authenticate', function(req, res, next) {
             res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
             // check if password matches
-            if (user.password != req.body.password) {
-                res.json({ success: false, message: 'Authentication failed. Password is incorrect.' });
-            } else {
-                // User has been found with the right password, create a jw-token
-                var token = jwt.sign(user, config.secret, {
-                    expiresIn: 1440 // expires in 24 hours
-                });
+            user.comparePassword(req.body.password, function(err, isMatch) {
+                if(isMatch === false) {
+                    res.json({ success: false, message: 'Authentication failed. Password is incorrect.' });
+                } else {
+                    // User has been found with the right password, create a jw-token
+                    var token = jwt.sign(user, config.secret, {
+                        expiresIn: 1440 // expires in 24 hours
+                    });
 
-                // return the information including token as JSON
-                res.json({
-                    success: true,
-                    message: 'Here is your token :)',
-                    token: token
-                });
-            }
-
+                    // return the information including token as JSON
+                    res.json({
+                        success: true,
+                        message: 'Here is your token :)',
+                        token: token
+                    });
+                }
+            });
         }
-
     });
 });
 
 function checkToken(req, res, next) {
-
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     // decode token
     if (token) {
-
         // verifies secret and checks exp
         jwt.verify(token, config.secret, function(err, decoded) {
             if (err) {
@@ -269,17 +266,15 @@ function checkToken(req, res, next) {
                 next();
             }
         });
-
     } else {
-
         // if there is no token
         // return an error
         return res.status(403).send({
             success: false,
             message: 'No token provided.'
         });
-
     }
 }
+
 // Return router
 module.exports =  router;
