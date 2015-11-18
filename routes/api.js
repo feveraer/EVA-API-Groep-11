@@ -10,6 +10,9 @@ var Category = require('../models/category'),
     Challenge = require('../models/challenge'),
     User = require('../models/user');
 
+// seed tasks for new user
+var taskSeed = require('../database/seed.tasks');
+
 // Routes
 //      Categories
 Category.methods(['get', 'put', 'post', 'delete']);
@@ -217,6 +220,57 @@ router.put('/users/:userId/tasks/:taskId', checkToken, function(req, res, next) 
 // Register all routes
 User.register(router, '/users');
 
+// Registration: {name, email, password} -> token
+router.post('/register', function (req, res, next) {
+    Challenge.find({}, function (err, challenges) {
+        var user = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            loginType: "fooServer api.js",
+            registeredOn: new Date(),
+            tasks: taskSeed.generateTasks(challenges)
+        };
+
+        // TODO: check if user exists already
+
+        user = new User(user);
+        user.save();
+
+        addTokenToResult(res, user);
+    });
+});
+
+function addTokenToResult(res, user) {
+    // User has been found with the right password, create a jw-token
+    var token = jwt.sign(user, config.secret, {
+        expiresIn: 1440 // expires in 24 hours
+    });
+
+    // return the information including token as JSON
+    res.json({
+        success: true,
+        message: 'Here is your token :)',
+        token: token
+    });
+}
+
+function addTokenToResultWithPasswordCheck(res, user, password){
+    if (!user) {
+        res.json({success: false, message: 'Authentication failed. User not found.'});
+        return;
+    }
+    // check if password matches
+    user.comparePassword(password, function (err, isMatch) {
+        if (isMatch === false) {
+            res.json({success: false, message: 'Authentication failed. Password is incorrect.'});
+            return;
+        }
+        addTokenToResult(res, user);
+    });
+
+}
+
 // Authentication route     /authenticate?body { email, password } -> token
 router.post('/authenticate', function(req, res, next) {
     // find the user
@@ -225,28 +279,7 @@ router.post('/authenticate', function(req, res, next) {
     }, function(err, user) {
         if (err) return next(err);
 
-        if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' });
-        } else if (user) {
-            // check if password matches
-            user.comparePassword(req.body.password, function(err, isMatch) {
-                if(isMatch === false) {
-                    res.json({ success: false, message: 'Authentication failed. Password is incorrect.' });
-                } else {
-                    // User has been found with the right password, create a jw-token
-                    var token = jwt.sign(user, config.secret, {
-                        expiresIn: 1440 // expires in 24 hours
-                    });
-
-                    // return the information including token as JSON
-                    res.json({
-                        success: true,
-                        message: 'Here is your token :)',
-                        token: token
-                    });
-                }
-            });
-        }
+        addTokenToResultWithPasswordCheck(res, user, req.body.password);
     });
 });
 
