@@ -1,6 +1,8 @@
 // Dependencies
 var ___ = require('underscore');
 var express = require('express');
+var jwt    = require('jsonwebtoken');
+var config = require('../config');
 var router = express.Router();
 
 // Models
@@ -12,7 +14,7 @@ var Category = require('../models/category'),
 //      Categories
 Category.methods(['get', 'put', 'post', 'delete']);
 
-//      All tasks of a specific user: /categories/id/challenges
+//      All challenges of a specific category: /categories/id/challenges
 Category.route('challenges', {
     detail: true,
     handler: function(req, res, next) {
@@ -214,6 +216,40 @@ router.put('/users/:userId/tasks/:taskId', function(req, res, next) {
 
 // Register all routes
 User.register(router, '/users');
+
+// Authentication route
+router.post('/authenticate', function(req, res, next) {
+
+    // find the user
+    User.findOne({
+        email: req.body.email
+    }, function(err, user) {
+        if (err) return next(err);
+
+        if (!user) {
+            res.json({ success: false, message: 'Authentication failed. User not found.' });
+        } else if (user) {
+            // check if password matches
+            if (user.token != req.body.token) {
+                res.json({ success: false, message: 'Authentication failed. Password is incorrect.' });
+            } else {
+                // User has been found with the right password, create a jw-token
+                var token = jwt.sign(user, config.secret, {
+                    expiresIn: 1440 // expires in 24 hours
+                });
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Here is your token :)',
+                    token: token
+                });
+            }
+
+        }
+
+    });
+});
 
 // Return router
 module.exports =  router;
