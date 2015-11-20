@@ -251,7 +251,8 @@ function addTokenToResult(res, user) {
     res.json({
         success: true,
         message: 'Here is your token :)',
-        token: token
+        token: token,
+        userId: user._id
     });
 }
 
