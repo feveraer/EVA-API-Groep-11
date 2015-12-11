@@ -30,7 +30,7 @@ function generateTasksForDay (challenges, dayIndex) {
       dueDate: generateDate(dayIndex),
       challenge: challenge._id,
       completed: (dayIndex < 3),                                          //TODO: replace.. For timeline development!
-      status: status                                     // previous days = 2, current day = 1, tomorrow = 0
+      status: 0                                     // previous days = 2, current day = 1, tomorrow = 0
     };
     // unique category -> add to tasks, next iteration
     usedCategories.push(challenge.category);
