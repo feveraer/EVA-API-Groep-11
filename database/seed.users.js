@@ -13,7 +13,7 @@ function seedUsers (challenges) {
     var user = new User({
       email: "gebruiker_" + userIndex + "@gmail.com",
       name: "gebruiker_" + userIndex,
-      token: "12345679abc",
+      password: "12345679abc",
       loginType: "facebook",
       registeredOn: new Date(2015, 10, 2),
       tasks: taskSeed.generateTasks(challenges)

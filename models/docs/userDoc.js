@@ -46,11 +46,38 @@
  *
  * @apiHeaderExample {json} Request-Example:
  *      {
- *          "Content-Type": "application/json"
+ *          "Content-Type": "application/json",
+ *          "x-access-token": "token from /authenticate"
  *      }
  *
  * @apiSuccessExample Body-Example:
  *      {
  *          "status" : 2
  *      }
+ */
+
+/**
+ * @api {post} /authenticate Authenticate
+ * @apiName Authenticate
+ * @apiGroup User
+ *
+ * @apiParam {String} email The user's e-mail.
+ * @apiParam {String} password The user's password.
+ *
+ *@apiHeaderExample {json} Request-Body-Example:
+ *      {
+ *          "email": "jon_snow@gmail.com",
+ *          "password": "knowsNOTHING123"
+ *      }
+ * @apiHeaderExample {json} Request-Header-Example:
+ *      {
+ *          "Content-Type": "application/json"
+ *      }
+ *
+ * @apiSuccessExample Body-Example:
+ *        {
+ *          "success": true,
+ *          "message": "Here is your token :)",
+ *          "token": "imagine a very long randomly generated thingy"
+ *        }
  */

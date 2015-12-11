@@ -4,11 +4,12 @@
 var mongoose = require('mongoose');
 var path = require('path');
 
+var config = require('./config');
 var app = require('./app');
 var seed = require('./database/seed');
 
 // MongoDB
-mongoose.connect('mongodb://localhost/eva', function(){
+mongoose.connect(config.database, function(){
     mongoose.connection.db.dropDatabase(function(){
         console.log('Database dropped.');
         seed.fillDatabase();
