@@ -44,8 +44,8 @@ User.methods(['get', 'put', 'post', 'delete']);
 
 function findUserById(id){
     //TODO: Replace when out of dev with
-    //return User.findOne({ _id : id});
-    return User.findOne({});
+    return User.findOne({ _id : id});
+    //return User.findOne({});
 }
 
 //      All tasks of a specific user: /users/:id/tasks
@@ -235,9 +235,12 @@ router.post('/register', function (req, res, next) {
         // TODO: check if user exists already
 
         user = new User(user);
-        user.save();
+        user.save(function (err, fluffy) {
+            if (err) return console.error(err);
+            addTokenToResult(res, user);
+        });
 
-        addTokenToResult(res, user);
+        // addTokenToResult(res, user);
     });
 });
 
