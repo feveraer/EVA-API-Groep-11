@@ -11,6 +11,10 @@ var userSchema = new mongoose.Schema({
     password: String,                          //TODO: Change for passport.js, ADD type: String, required: 'Token is required'
     loginType: String,
     registeredOn: Date,
+    isHashed: {
+        type: Boolean,
+        default: false
+    },
     tasks: [{
         dueDate: Date,
         completed: {                        //TODO: Available for backward compatibility, remove when dev branches don't use this anymore
@@ -31,12 +35,14 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
     var user = this;
+    if(user.isHashed) return next();
     if (user.password === undefined) return next();
 
     bcrypt.hash(user.password, SALT_FACTOR, function(err, hash) {
         if (err) return next(err);
         console.log(user.password + ' -> ' + hash);
         user.password = hash;
+        user.isHashed = true;
         next();
     });
 });
