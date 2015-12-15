@@ -3,11 +3,10 @@ var config = {
   DAY_IN_MS: 86400000,
   TASKS_PER_USER: 30,
   TASKS_PER_DAY: 3,
-  TODAY: new Date()
+  TODAY: function () {
+    return new Date();
+  }
 };
-
-// offset today by 5 days
-config.TODAY.setTime(config.TODAY.getTime() - (5 * config.DAY_IN_MS));
 
 function generateTasks (challenges) {
   var tasks = [];
@@ -44,7 +43,7 @@ function generateTasksForDay (challenges, dayIndex) {
 //add a day to taskDate per task
 function generateDate (dayIndex) {
   var daysToAdd = (dayIndex) * config.DAY_IN_MS;
-  return new Date(config.TODAY.getTime() + daysToAdd);
+  return new Date(config.TODAY().getTime() + daysToAdd);
 }
 
 // not random, keep looping
