@@ -1,17 +1,31 @@
 {
-  "name": "rest",
+  "name": "RestAPI",
   "version": "1.0.0",
-  "description": "rest api",
-  "main": "index.js",
+  "description": "an api for our web and mobile application.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart": "apidoc -i models/docs -o apidoc/",
+    "start": "set NODE_ENV=development && node server.js",
+    "test": "set NODE_ENV=test && mocha -b"
   },
   "author": "Brian Pinsard",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.14.0",
+    "connect": "^3.4.0",
     "express": "^4.13.3",
+    "jsonwebtoken": "^5.4.1",
     "mongoose": "^4.1.8",
-    "node-restful": "^0.2.2"
+    "node-restful": "^0.2.2",
+    "path": "^0.12.7",
+    "serve-static": "^1.10.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "apidoc": "^0.13.1",
+    "mocha": "^2.3.3",
+    "morgan": "^1.6.0",
+    "should": "^7.1.1"
   }
 }
